@@ -13,6 +13,10 @@ alcanzarte te deboran al instante. Existen powerups con los cuales se puede inve
 ![Pacman 2D](/img/imgReadMe/pacman.jpeg)
 
 Este juego se puede llevar a una versión 3d, inspirada en el siguiente video.  [ [Video](https://youtu.be/IujqngIEdb0) ]
+Como podemos ver al ser un juego en _primera persona_ y tener la misma temática de un laberinto, en el cual debes de recoger puntos y powerups, el mismo genero del juego puede variar, según la ambientación que se le proporcione al juego, este puede volverse inluso un juego de terror. En el cual podemos experimentar con diversas texturas y personajes. 
+Sin embargo no estamos cerrados diferetnes perspectivas del juego 
+![Pacman3D](/img/imgReadMe/pacman3D.jpg)
+![Pacman3D2](/img/imgReadMe/pacman3D2.jpg)
 
 # * CAR CUSTOMIZER
 
