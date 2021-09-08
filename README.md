@@ -36,6 +36,6 @@ Este proyecto se podría mejorar agregando un estilo com Grand Theft Auto, el cu
 El animación japonesa causa fascinación a muchos, por su estilo y la energía que esta demuestra. De la misma manera es muy versátil y permite fluir a la imaginación. 
 Es por ello que este proyecto consistiría en el modelado 3D de un personaje, ya sea existente de algún manga o anime, o de nuestra autoría.
 El personaje deberá de contar con diversas expresiones faciales, así como un corto video en donde se muestren sus movimientos y texturas tanto en la ropa con el cabello, así como su interacción con elemenos del entorno. 
-
-
+![naruto](/img/imgReadMe/naruto.jpg)
+![gojo](/img/imgReadMe/gojo.png)
 
