@@ -2,7 +2,7 @@
 ## Equipo 3
 
 ### Propuestas: 
-1. Pacman en primera persona (https://youtu.be/IujqngIEdb0)
+1. Pacman en primera persona 
 1. Personaliza tu coche (Materiales / spray) 
 1. Simulación de personaje 
   
@@ -11,7 +11,8 @@
 El juego de pacman consiste en un plano 2D, en el cual nuestro personaje principal se encuentra recorriendo un laberinto, mientras recoge puntos y huye de fantasmas, los cuales 
 alcanzarte te deboran al instante. Existen powerups con los cuales se puede invertir esta situación y Pacman es capaz de devorar a los fantasmas. 
 ![Pacman 2D](/img/imgReadMe/pacman.jpeg)
-El proyecto 
+
+Este juego se puede llevar a una versión 3d, inspirada en el siguiente video.  [ [Video](https://youtu.be/IujqngIEdb0) ]
 
 # * CAR CUSTOMIZER
 
