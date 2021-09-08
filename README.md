@@ -1,5 +1,8 @@
 # GraficasComputacionales_ProyectoFinal
 ## Equipo 3
+* David Benjamin Ruíz Salazar
+* Miguel Ángel Hernández Maldonado
+* René García Avilés 
 
 ### Propuestas: 
 1. Pacman en primera persona 
