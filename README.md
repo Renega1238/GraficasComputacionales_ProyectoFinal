@@ -18,10 +18,15 @@ Sin embargo no estamos cerrados diferetnes perspectivas del juego
 ![Pacman3D](/img/imgReadMe/pacman3D.jpg)
 ![Pacman3D2](/img/imgReadMe/pacman3D2.jpg)
 
+Consideramos que este proyecto es el más desafiante de todos y por lo tanto decidimos que es la mejor opción. 
+En el se podrán implementar todo los conceptos de modelado en 3D e iluminación vistos en el curso, así como diversos desafíos externos y particulares a nuestro proyecto. 
+
 # * CAR CUSTOMIZER
+
+El juego Car Customizer, basicamente consiste en un taller mecánico, en el cual el usuario tendrá la posibilidad de personalizar su coche a su gusto. 
+Este proyecto involucraría una serie de diversas texturas, así como el modificarlas de manera dináminca según lo que decida el usuario. 
 
 # * ANIME CHARACTER MODEL
 
 
-Decidimos que la mejor opción es la número 1, el Pacman en primera persona, con el cual generaremos texturas y un mapa. 
-Así como contará con distintos power ups. 
+
