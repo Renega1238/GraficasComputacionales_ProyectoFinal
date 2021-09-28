@@ -12,6 +12,7 @@
 El juego de pacman consiste en un plano 2D, en el cual nuestro personaje principal se encuentra recorriendo un laberinto, mientras recoge puntos y huye de fantasmas, los cuales 
 alcanzarte te deboran al instante. Existen powerups con los cuales se puede invertir esta situación y Pacman es capaz de devorar a los fantasmas. 
 Nuestra versión del juego será en 3D, con diferentes poderes. 
+![Meme](/img/imgReadMe/blackh.jpg)
 
 # * Pantallas
 
