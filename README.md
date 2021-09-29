@@ -17,6 +17,7 @@ Nuestra versión del juego será en 3D, con diferentes poderes.
 # * ¿Cómo jugar?
 
 Una vez iniciado el juego el usuario tendra que recolectar los "n" _Pac-Dots_ que se encuentran en cada nivel en conjunto con los _Power-Pellets_ que le darán 10 sgundos para poder deborar  a los 4 fantasmas que son enemigos de pacman y estrán tras de él para poder matarlo.
+
   Pac-Dots: 10 pts
   
   Power-Pellets: 50 pts
