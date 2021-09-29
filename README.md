@@ -31,8 +31,10 @@ Que gane el Mejor
 # * ¿Cuándo termina?
 El juego puede cabar de dos maneras:
 1. Deborado por un fantasma
+
     *Desde el inicio del juego hasta el final, los fantasmas estarán tras el jugador y en cuanto sea alcanzado por uno, el juego termina, le muestra su puntaje y el nivel alcanzado
 2. Termianndo los 3 niveles
+
     *Si el jugador logra recolectar todos los _Pac-Dots_ y los _Power-Pellets_ del nivel 3, el juego terminá y se muestra el puntaje total alcanzado y se le muestra una pantalla de reconocimiento por haber termiando el juego
 
 # * Niveles
