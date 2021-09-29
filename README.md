@@ -17,8 +17,10 @@ Nuestra versión del juego será en 3D, con diferentes poderes.
 # * ¿Cómo jugar?
 
 Una vez iniciado el juego el usuario tendra que recolectar los "n" _Pac-Dots_ que se encuentran en cada nivel en conjunto con los _Power-Pellets_ que le darán 10 sgundos para poder deborar  a los 4 fantasmas que son enemigos de pacman y estrán tras de él para poder matarlo.
-  Pac-Dots: 10 pts  
+  Pac-Dots: 10 pts
+  
   Power-Pellets: 50 pts
+  
   Fantasmas: 200 pts
 
 Cada que el usuario recolecte todos los _Pac-Dots_ y los _Power-Peletts_ de unn nivel se pasara al siguiente conservando su puntaje actual, el juego consta de 3 niveles para poder hacer todos los puntos posibles.
@@ -42,6 +44,7 @@ Para el desarrollo de este videojuego se desarrollaran 4 fantasmas
   2. BENJA que será de color Anaranjado
   3. MIKE que será de color Azul
   4. OCTAVIO que será de color Verde
+
 Cada fantasma tendrá su propío recorrido en cada nivel y su velocidad irá aumentando de acuerdo con el nivel en el que se encuentren, para añadirle un toque extra de dificultad
 
 # * GAME
