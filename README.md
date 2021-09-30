@@ -16,7 +16,7 @@ Nuestra versión del juego será en 3D, con diferentes poderes.
 
 # * ¿Cómo jugar?
 
-Una vez iniciado el juego el usuario tendra que recolectar los "n" _Pac-Dots_ que se encuentran en cada nivel en conjunto con los _Power-Pellets_ que le darán 10 sgundos para poder deborar  a los 4 fantasmas que son enemigos de pacman y estrán tras de él para poder matarlo.
+Una vez iniciado el juego el usuario tendra que recolectar los "n" _Pac-Dots_ que se encuentran en cada nivel en conjunto con los _Power-Pellets_ que le darán 10 sgundos para poder deborar a los 4 fantasmas que son enemigos de pacman y estrán tras de él para poder matarlo.
 
   Pac-Dots: 10 pts
   
@@ -24,7 +24,7 @@ Una vez iniciado el juego el usuario tendra que recolectar los "n" _Pac-Dots_ qu
   
   Fantasmas: 200 pts
 
-Cada que el usuario recolecte todos los _Pac-Dots_ y los _Power-Peletts_ de unn nivel se pasara al siguiente conservando su puntaje actual, el juego consta de 3 niveles para poder hacer todos los puntos posibles.
+Cada que el usuario recolecte todos los _Pac-Dots_ y los _Power-Peletts_ de un nivel se pasara al siguiente conservando su puntaje actual, el juego consta de 3 niveles para poder hacer todos los puntos posibles.
 
 Que gane el Mejor
 
@@ -69,3 +69,24 @@ Al ser un juego, debe de ser interactivo con el usuario, al momento de iniciar u
 ![GameView](/img/imgReadMe/GameView.png)
 ## Game Over
 ![GameOver](/img/imgReadMe/GameOver.png)
+
+# * Diseño de niveles y ambiente
+
+Como se puede apreciar en la imágenes anteriores el juego tendrá una estética similar a la del primer Pac-Man utilizando el color azúl para definir los segmentos superiores e inferiores de las paredes. Los _Pac-Dots_ serán de color amarillo y emitirán una ligera cantidad de luz.
+
+En cuanto a la estructura de los niveles se definirán a partir de un documento de texto y serán 3 diferentes planos.
+
+# * Controles
+
+Se utilizará el teclado y el mouse para navegar el laberinto, cabe aclarar que el movimiento solo es en dos ejes.
+Se utilizará el siguiente esquema:
+
+w - Mover hacia adelante
+a - Mover hacia la izquierda
+s - Mover hacia atrás
+d - Mover hacia la derecha
+
+Mouse - Rotación de la cámara en primera persona
+
+
+
