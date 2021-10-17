@@ -8,4 +8,4 @@ document.getElementById('inputfile')
             }
               
             fr.readAsText(this.files[0]);
-        })
+        }) 
