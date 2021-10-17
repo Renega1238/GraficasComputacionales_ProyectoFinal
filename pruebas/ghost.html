@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <script src="sceneHandlers.js"></script>
+    <script type = "module" src = "ghost.js"></script>
+    
+    <title>Ghost</title>
+</head>
+<body>
+
+    <div id="container">
+        <canvas id="webglcanvas" width=800 height=600></canvas>
+        <div id="title">
+            Three.js Shadows
+        </div>
+        <div id="prompt">
+            Drag the mouse to rotate the camera<br>Use the scroll wheel to zoom.
+        </div>
+    </div>
+    
+    <div id="properties">
+        
+    <div id="directional" class="colorSelector">
+        Directional
+        <input id='directionalLight' type="color">
+    </div>
+    <div id="spot" class="colorSelector">
+        Spot
+        <input id='spotLight' type="color">
+    </div>
+    <div id="ambient" class="colorSelector">
+        Ambient
+        <input id='ambientLight' type="color">
+    </div>
+    
+    
+    </div>
+    
+</body>
+</html>
