@@ -1,3 +1,4 @@
+/*
 document.getElementById('inputfile')
             .addEventListener('change', function() {
               
@@ -9,3 +10,12 @@ document.getElementById('inputfile')
               
             fr.readAsText(this.files[0]);
         }) 
+*/
+
+var fs = require("fs");
+fs.readFile("./prueba.txt", function(text)
+{
+    console.log(text);
+    
+});
+
