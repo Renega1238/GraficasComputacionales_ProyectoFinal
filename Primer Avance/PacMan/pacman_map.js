@@ -63,8 +63,11 @@ function createScene(canvas)
     camera = new THREE.PerspectiveCamera( 45, canvas.width / canvas.height, 1, 4000 );
     camera.position.set(0, -5, 20);
 
+    // Controles para poder ver la maqueta 
     orbitControls = new OrbitControls(camera, renderer.domElement);
         
+    // Luz direccional, esta se posiciona en un plano infinitamente lejano
+    // Ilumina hacia un lado 
     directionalLight = new THREE.DirectionalLight( 0xaaaaaa, 1);
 
     directionalLight.position.set(.5, 1, -3);
@@ -91,6 +94,7 @@ function createScene(canvas)
     
 }
 
+// Definimos mapa por medio de string
 LEVEL = ['WWWWWWWWWWW','W..W...W..W','W.WWWPWWW.W','W..W...W..W','W.P..W..P.W','W..W...W..W','W.WWWPWWW.W','W..W...W..W','W.WWW.WWW.W','W..P.P.P..W','WWWWWWWWWWW'
 ];
 
@@ -102,7 +106,7 @@ function createMap(scene, levelDefinition) {
     map.left = 0;
     map.right = 0;
 
-
+    // El mapa se dibuja como columnas y filas
     var x, y;
     for (var row = 0; row < levelDefinition.length; row++) {
         // Set the coordinates of the map so that they match the
@@ -117,9 +121,11 @@ function createMap(scene, levelDefinition) {
         map.right = Math.max(map.right, length);
 
         // Skip every second element, which is just a space for readability.
+        // Por el tamaño de cada elemento del arreglo de arreglos 
         for (var column = 0; column < levelDefinition[row].length; column ++) {
             x = column;
 
+            // Es una matriz, por lo que se va recorriendo en dos niveles 
             var cell = levelDefinition[row][column];
             var object = null;
 
@@ -138,6 +144,7 @@ function createMap(scene, levelDefinition) {
         }
     }
 
+    // Centramos
     map.centerX = (map.left + map.right) / 2;
     map.centerY = (map.bottom + map.top) / 2;
 

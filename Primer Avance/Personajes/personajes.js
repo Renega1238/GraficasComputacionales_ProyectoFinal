@@ -69,9 +69,10 @@ function createScene(canvas)
     ambientLight = new THREE.AmbientLight ( 0x444444, 0.8);
     scene.add(ambientLight);
     
-
+    // Cargamos nuestro heroe 
     const gltfLoadpacman= new GLTFLoader();
     var pm = new THREE.Object3D();
+    // carga el modelo y le asigna un lugar y escala
     gltfLoadpacman.load('../models/pac_man.gltf', (gltf, el) => {
         pm  = gltf.scene;
         pm.name = 'pacman';
@@ -79,6 +80,7 @@ function createScene(canvas)
         pm.scale.set(.6, .6, .6)
     scene.add(pm)});
 
+    // Cargamos a los villanos
     const gltfLoaderred = new GLTFLoader();
     var renered = new THREE.Object3D();
     gltfLoaderred.load('../models/Fred.gltf', (gltf, el) => {
