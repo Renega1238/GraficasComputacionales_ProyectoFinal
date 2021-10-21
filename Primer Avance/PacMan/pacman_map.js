@@ -152,7 +152,8 @@ function createMap(scene, levelDefinition) {
 };
 
 
-
+// Funciones auziliares, para crear elementos del mapa
+// Muro 
 function createWall() {
     var wallGeometry = new THREE.BoxGeometry(1, 1, 2);
     var wall = new THREE.Mesh(wallGeometry, materials["wall"]);
@@ -160,6 +161,7 @@ function createWall() {
   
 };
 
+// punto 
 function createDot() {
     var dotGeometry = new THREE.SphereGeometry( .2, 20, 20);
     var dotMaterial = new THREE.MeshPhongMaterial({ color: "yellow"}); // Paech color
@@ -168,6 +170,7 @@ function createDot() {
 
 };
 
+// poder 
 function createPower() {
     var formGeometry = new THREE.SphereGeometry( .3, 20, 20 );
     var formMaterial = new THREE.MeshPhongMaterial({ color: "orange" }); // Paech color
