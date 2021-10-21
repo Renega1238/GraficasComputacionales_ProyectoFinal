@@ -26,29 +26,32 @@ function main()
 
 function update() 
 {
+    
     requestAnimationFrame(function() { update(); });
     
-    // Render the scene
+    // renderizar a partir de la camara
     renderer.render( scene, camera );
 
 
-    // Update the camera controller
+    //Actualiza el control de la camara
     orbitControls.update();
 }
 
 function createMaterials()
 {
-
-    //Para el Sol
+    //Para cargar el material de las paredes se hace un map 
     textureMap = new THREE.TextureLoader().load(wallmap);
+    //Se guarda el material "wall" en el arreglo
     materials["wall"] = new THREE.MeshPhongMaterial({map: textureMap});
 
 }
 
 function createScene(canvas) 
 {
+    //Se crean los materiales
     createMaterials();
-
+    
+    //Se crea el renderer asignandose al canvas del documento html y con sus parametros
     renderer = new THREE.WebGLRenderer( { canvas: canvas, antialias: true } );
 
     renderer.setSize(canvas.width, canvas.height);
@@ -57,9 +60,10 @@ function createScene(canvas)
 
     renderer.shadowMap.type = THREE.BasicShadowMap;
     
+    //Se asigna un fondo a la escena
     scene = new THREE.Scene();
     scene.background = new THREE.Color (255, 255, 255 );
-
+    //Se crea la camara
     camera = new THREE.PerspectiveCamera( 45, canvas.width / canvas.height, 1, 4000 );
     camera.position.set(0, -5, 20);
 
@@ -100,11 +104,15 @@ function createScene(canvas)
     
 }
 
-// Definimos el mapa 
+/* 
+    Definimos el mapa con los siguientes definiciones
+    W es una pared
+    . es una punto regular amarillo
+    P es una bola naranja de powerup
+ */
 LEVEL = ['WWWWWWWWWWW','W..W...W..W','W.WWWPWWW.W','W..W...W..W','W.P..W..P.W','W..W...W..W','W.WWWPWWW.W','W..W...W..W','W.WWW.WWW.W','W..P.P.P..W','WWWWWWWWWWW'
 ];
 
-//function createScene(canvas)
 function createMap(scene, levelDefinition) {
     var map = {};
     map.bottom = -(levelDefinition.length - 1);
@@ -117,18 +125,20 @@ function createMap(scene, levelDefinition) {
     // [ [] , [] ] 
     var x, y;
     for (var row = 0; row < levelDefinition.length; row++) {
-        // Set the coordinates of the map so that they match the
-        // coordinate system for objects.
+        /* 
+        Se asignan las coordenadas del mapa para que concuerden con
+        el sistema de coordenadas para objetos
+        */
         y = -row;
 
         map[y] = {};
 
-        // Get the length of the longest row in the level definition.
+        // Se obtiene la longitud de la fila más larga de la definicion del mapa
         var length = Math.floor(levelDefinition[row].length / 2);
         //map.right = Math.max(map.right, length - 1);
         map.right = Math.max(map.right, length);
 
-        // Skip every second element, which is just a space for readability.
+        // Salta cada segundo elemento, el cual solo es para mejorar la lectura
         for (var column = 0; column < levelDefinition[row].length; column ++) {
             x = column;
 
@@ -146,6 +156,7 @@ function createMap(scene, levelDefinition) {
                 object = createPower();
             }
             if (object !== null) {
+                //Se guarda el nuevo objeto al arreglo de mapa
                 object.position.set(x, y, 0);
                 map[y][x] = object;
                 scene.add(object);
@@ -153,6 +164,7 @@ function createMap(scene, levelDefinition) {
         }
     }
 
+    // Despues de crear el mapa se establece el centro del mapa
     map.centerX = (map.left + map.right) / 2;
     map.centerY = (map.bottom + map.top) / 2;
 
