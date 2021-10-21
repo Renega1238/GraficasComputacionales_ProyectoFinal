@@ -4,41 +4,89 @@
 * Miguel Ángel Hernández Maldonado
 * René García Avilés 
 
-### Propuestas: 
+### Proyecto 
 1. Pacman en primera persona 
-1. Personaliza tu coche (Materiales / spray) 
-1. Simulación de personaje 
   
 # * PACMAN 3D
 
 El juego de pacman consiste en un plano 2D, en el cual nuestro personaje principal se encuentra recorriendo un laberinto, mientras recoge puntos y huye de fantasmas, los cuales 
 alcanzarte te deboran al instante. Existen powerups con los cuales se puede invertir esta situación y Pacman es capaz de devorar a los fantasmas. 
-![Pacman 2D](/img/imgReadMe/pacman.jpeg)
+Nuestra versión del juego será en 3D, con diferentes poderes. 
+![Meme](/img/imgReadMe/blackh.jpg)
 
-Este juego se puede llevar a una versión 3d, inspirada en el siguiente video.  [ [Video](https://youtu.be/IujqngIEdb0) ]
-Como podemos ver al ser un juego en _primera persona_ y tener la misma temática de un laberinto, en el cual debes de recoger puntos y powerups, el mismo genero del juego puede variar, según la ambientación que se le proporcione al juego, este puede volverse inluso un juego de terror. En el cual podemos experimentar con diversas texturas y personajes. 
-Sin embargo no estamos cerrados diferetnes perspectivas del juego 
-![Pacman3D](/img/imgReadMe/pacman3D.jpg)
-![Pacman3D2](/img/imgReadMe/pacman3D2.jpg)
+# * ¿Cómo jugar?
 
-Consideramos que este proyecto es el más desafiante de todos y por lo tanto decidimos que es la mejor opción. 
-En el se podrán implementar todo los conceptos de modelado en 3D e iluminación vistos en el curso, así como diversos desafíos externos y particulares a nuestro proyecto. 
+Una vez iniciado el juego el usuario tendra que recolectar los "n" _Pac-Dots_ que se encuentran en cada nivel en conjunto con los _Power-Pellets_ que le darán 10 sgundos para poder deborar a los 4 fantasmas que son enemigos de pacman y estrán tras de él para poder matarlo.
 
-# * CAR CUSTOMIZER
+  Pac-Dots: 10 pts
+  
+  Power-Pellets: 50 pts
+  
+  Fantasmas: 200 pts
 
-El juego Car Customizer, basicamente consiste en un taller mecánico, en el cual el usuario tendrá la posibilidad de personalizar su coche a su gusto. 
-Este proyecto involucraría una serie de diversas texturas, así como el modificarlas de manera dináminca según lo que decida el usuario. 
+Cada que el usuario recolecte todos los _Pac-Dots_ y los _Power-Peletts_ de un nivel se pasara al siguiente conservando su puntaje actual, el juego consta de 3 niveles para poder hacer todos los puntos posibles.
 
-![mustang](/img/imgReadMe/mustang.jpg)
-![lambo](/img/imgReadMe/lambo.jpg)
+Que gane el Mejor
 
-Este proyecto se podría mejorar agregando un estilo com Grand Theft Auto, el cual el usuario maneje por un corto trayacto hacia el garage, en donde procedrá a personalizar su coche. 
+# * ¿Cuándo termina?
+El juego puede cabar de dos maneras:
+1. Deborado por un fantasma
 
-# * ANIME CHARACTER MODEL
+    *Desde el inicio del juego hasta el final, los fantasmas estarán tras el jugador y en cuanto sea alcanzado por uno, el juego termina, le muestra su puntaje y el nivel alcanzado
+2. Termianndo los 3 niveles
 
-El animación japonesa causa fascinación a muchos, por su estilo y la energía que esta demuestra. De la misma manera es muy versátil y permite fluir a la imaginación. 
-Es por ello que este proyecto consistiría en el modelado 3D de un personaje, ya sea existente de algún manga o anime, o de nuestra autoría.
-El personaje deberá de contar con diversas expresiones faciales, así como un corto video en donde se muestren sus movimientos y texturas tanto en la ropa con el cabello, así como su interacción con elemenos del entorno. 
-![naruto](/img/imgReadMe/naruto.jpg)
-![gojo](/img/imgReadMe/gojo.png)
+    *Si el jugador logra recolectar todos los _Pac-Dots_ y los _Power-Pellets_ del nivel 3, el juego terminá y se muestra el puntaje total alcanzado y se le muestra una pantalla de reconocimiento por haber termiando el juego
+
+# * Niveles
+El juego constará de tres niveles 
+En todos los niveles habrá 244 _Pac-Dots_ y 4 _Power-Pellets_ que tienen que ser recolectados para poder pasar de nivel o en su defecto para terminar el juego
+
+# * Fantasmas
+Para el desarrollo de este videojuego se desarrollaran 4 fantasmas
+  1. RENE que será de color Rojo
+  2. BENJA que será de color Anaranjado
+  3. MIKE que será de color Azul
+  4. OCTAVIO que será de color Verde
+
+Cada fantasma tendrá su propío recorrido en cada nivel y su velocidad irá aumentando de acuerdo con el nivel en el que se encuentren, para añadirle un toque extra de dificultad
+
+# * GAME
+El juego se vera desde una perspectiva de primera persona para darle un toque más inmersivo para el usuario, y se le apoyará con un mapa en la ventana superior izquerda para que pueda ver el mapa desde una perspectiva aerea en caso de que olvide donde le faltan _Pac-Dots_ o _Power-pellets_
+
+El jugador tendrá solo una oportinidad/vida para poder completar los 3 niveles que componene el videojuego
+
+El juego es continuo, por lo que no habrá opciones de pausa, una vez iniciado el juego se debe morir o terminar para poder regresar al menu principal
+
+
+# * Pantallas
+
+Al ser un juego, debe de ser interactivo con el usuario, al momento de iniciar una nueva partida, motivo por el cual se consideran las siguientes pantallas. 
+## Inicio
+![INICIO](/img/imgReadMe/INICIO.png)
+## Start
+![START](/img/imgReadMe/START.png)
+## Vista de juego
+![GameView](/img/imgReadMe/GameView.png)
+## Game Over
+![GameOver](/img/imgReadMe/GameOver.png)
+
+# * Diseño de niveles y ambiente
+
+Como se puede apreciar en la imágenes anteriores el juego tendrá una estética similar a la del primer Pac-Man utilizando el color azúl para definir los segmentos superiores e inferiores de las paredes. Los _Pac-Dots_ serán de color amarillo y emitirán una ligera cantidad de luz.
+
+En cuanto a la estructura de los niveles se definirán a partir de un documento de texto y serán 3 diferentes planos.
+
+# * Controles
+
+Se utilizará el teclado y el mouse para navegar el laberinto, cabe aclarar que el movimiento solo es en dos ejes.
+Se utilizará el siguiente esquema:
+
+w - Mover hacia adelante
+a - Mover hacia la izquierda
+s - Mover hacia atrás
+d - Mover hacia la derecha
+
+Mouse - Rotación de la cámara en primera persona
+
+
 
