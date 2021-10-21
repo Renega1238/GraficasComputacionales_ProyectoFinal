@@ -1,7 +1,7 @@
 import * as THREE from "../libs/three.js/r131/three.module.js"
 import { FlyControls } from "./FlyControls.js"
 
-let str = " W x0.05 y1 z3 a0; W x8.05,y1,z3 a23&";
+let str = " W x0.05 y1 z3 a0; W x8.05,y1,z3 a1.5; W x1 y3 z1 a0&";
 let coord = [];
 let x = 0, y = 0, z = 0, a = 0; 
 let state = 0; 
