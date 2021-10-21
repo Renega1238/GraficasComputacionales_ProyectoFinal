@@ -63,8 +63,16 @@ function createScene(canvas)
     camera = new THREE.PerspectiveCamera( 45, canvas.width / canvas.height, 1, 4000 );
     camera.position.set(0, -5, 20);
 
+    /* 
+    * Controlador de Orbita
+    * Nos va a permitir observar el mapa como maqueta para validar su utilidad
+    */
     orbitControls = new OrbitControls(camera, renderer.domElement);
-        
+      
+    /* 
+    * Luz direccional
+    * Esta luz se posiciona en un plano infinitamente lejano y ilumina hacia una dirección
+    */
     directionalLight = new THREE.DirectionalLight( 0xaaaaaa, 1);
 
     directionalLight.position.set(.5, 1, -3);
@@ -86,11 +94,13 @@ function createScene(canvas)
     spotLight.shadow.mapSize.width = SHADOW_MAP_WIDTH;
     spotLight.shadow.mapSize.height = SHADOW_MAP_HEIGHT;
 
+    // Ambient Light ilumina todos los elementos de la escena de manera pareja
     ambientLight = new THREE.AmbientLight ( 0x444444, 0.8);
     scene.add(ambientLight);
     
 }
 
+// Definimos el mapa 
 LEVEL = ['WWWWWWWWWWW','W..W...W..W','W.WWWPWWW.W','W..W...W..W','W.P..W..P.W','W..W...W..W','W.WWWPWWW.W','W..W...W..W','W.WWW.WWW.W','W..P.P.P..W','WWWWWWWWWWW'
 ];
 
@@ -103,6 +113,8 @@ function createMap(scene, levelDefinition) {
     map.right = 0;
 
 
+    // Se puede leer el mapa como una arreglo de arreglos
+    // [ [] , [] ] 
     var x, y;
     for (var row = 0; row < levelDefinition.length; row++) {
         // Set the coordinates of the map so that they match the
@@ -123,10 +135,13 @@ function createMap(scene, levelDefinition) {
             var cell = levelDefinition[row][column];
             var object = null;
 
+            // Cada W representa un muro
             if (cell === 'W') {
                 object = createWall();
+            // Cada punto representa un punto 
             } else if (cell === '.') {
                 object = createDot();
+            // Cada P representa un powerUp
             }else if (cell === 'P') {
                 object = createPower();
             }
@@ -145,7 +160,8 @@ function createMap(scene, levelDefinition) {
 };
 
 
-
+// Funciones auxiliares
+// Creamos el Muro 
 function createWall() {
     var wallGeometry = new THREE.BoxGeometry(1, 1, 2);
     var wall = new THREE.Mesh(wallGeometry, materials["wall"]);
@@ -153,6 +169,7 @@ function createWall() {
   
 };
 
+// Creamos el punto 
 function createDot() {
     var dotGeometry = new THREE.SphereGeometry( .2, 20, 20);
     var dotMaterial = new THREE.MeshPhongMaterial({ color: "yellow"}); // Paech color
@@ -161,6 +178,7 @@ function createDot() {
 
 };
 
+// Creamos el powerUP
 function createPower() {
     var formGeometry = new THREE.SphereGeometry( .3, 20, 20 );
     var formMaterial = new THREE.MeshPhongMaterial({ color: "orange" }); // Paech color

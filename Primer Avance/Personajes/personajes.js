@@ -45,6 +45,7 @@ function createScene(canvas)
 
     orbitControls = new OrbitControls(camera, renderer.domElement);
         
+    // Luz direccional
     directionalLight = new THREE.DirectionalLight( 0xaaaaaa, 1);
 
     directionalLight.position.set(.5, 1, -3);
@@ -69,7 +70,11 @@ function createScene(canvas)
     ambientLight = new THREE.AmbientLight ( 0x444444, 0.8);
     scene.add(ambientLight);
     
-
+    /* 
+    * Cargamos a nuestro heroe
+    * Cargamos el modelo 
+    *   Le damos la escena / nombre / coordenadas / escala
+    */
     const gltfLoadpacman= new GLTFLoader();
     var pm = new THREE.Object3D();
     gltfLoadpacman.load('../models/pac_man.gltf', (gltf, el) => {
@@ -79,6 +84,7 @@ function createScene(canvas)
         pm.scale.set(.6, .6, .6)
     scene.add(pm)});
 
+    // Cargamos a los villanos, cada uno representa a un fantasma
     const gltfLoaderred = new GLTFLoader();
     var renered = new THREE.Object3D();
     gltfLoaderred.load('../models/Fred.gltf', (gltf, el) => {
@@ -88,7 +94,6 @@ function createScene(canvas)
         renered.rotation.y = 4.65;
     scene.add(renered)});
     
-
     const gltfLoaderyellow= new GLTFLoader();
     var benjamarillo = new THREE.Object3D();
     gltfLoaderyellow.load('../models/Fyellowgltf.gltf', (gltf, el) => {
