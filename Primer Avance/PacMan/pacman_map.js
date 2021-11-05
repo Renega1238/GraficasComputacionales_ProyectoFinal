@@ -13,6 +13,9 @@ let textureMap = null;
 let materials = {};
 let wallmap = "../images/Wall.jpeg";
 
+// Animation
+let itemsgroup = null, wallsgroup = null; 
+
 function main()
 {
     const canvas = document.getElementById("webglcanvas");
@@ -20,6 +23,11 @@ function main()
     createScene(canvas);
 
     const mapa = createMap(scene, LEVEL);
+
+    //////////////////////////
+    initAnimations();
+    playAnimations();
+    //////////////////////////
 
     update();
 }
@@ -120,6 +128,8 @@ function createMap(scene, levelDefinition) {
     map.left = 0;
     map.right = 0;
 
+    itemsgroup = new THREE.Object3D();
+    wallsgroup = new THREE.Object3D();
 
     // Se puede leer el mapa como una arreglo de arreglos
     // [ [] , [] ] 
@@ -143,25 +153,45 @@ function createMap(scene, levelDefinition) {
             x = column;
 
             var cell = levelDefinition[row][column];
-            var object = null;
+            var wall = null;
+            var item = null; 
 
             // Cada W representa un muro
             if (cell === 'W') {
-                object = createWall();
+                wall = createWall();
             // Cada punto representa un punto 
             } else if (cell === '.') {
-                object = createDot();
+                item = createDot();
             // Cada P representa un powerUp
             }else if (cell === 'P') {
-                object = createPower();
+                item = createPower();
             }
+
+            if (wall !== null)
+            {
+                wall.position.set( x, y, 0);
+                map[y][x] = wall;
+                wallsgroup.add(wall);
+            }
+            if(item !== null)
+            {
+                item.position.set( x, y, 0);
+                map[y][x] = item;
+                itemsgroup.add(item);
+            }
+            /*
             if (object !== null) {
                 //Se guarda el nuevo objeto al arreglo de mapa
                 object.position.set(x, y, 0);
                 map[y][x] = object;
                 scene.add(object);
             }
+            */
         }
+
+        scene.add(wallsgroup);
+        scene.add(itemsgroup);
+
     }
 
     // Despues de crear el mapa se establece el centro del mapa
@@ -199,5 +229,42 @@ function createPower() {
 
 };
 
+/////////////////////////////
+// Animation 
+function initAnimations() 
+{
+    animator = new KF.KeyFrameAnimator;
+    animator.init({ 
+        interps:
+            [
+                { 
+                    keys:[0, .5, 1], 
+                    values:[
+                            { y : 1 },
+                            { y : 0.5 },
+                            { y : 1 },
+                            ],
+                    target:wallsgroup.scale
+                },
+                { 
+                    keys:[0, .5, 1], 
+                    values:[
+                            { y : 0 },
+                            { y : Math.PI * 2  },
+                            { y : 0 },
+                            ],
+                    target:wallsgroup.rotation
+                },
+            ],
+        loop: loopAnimation,
+        duration: duration,
+    });
+}
 
+function playAnimations()
+{
+    animator.start();
+}
+
+/////////////////////////////////////////
 main();
