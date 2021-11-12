@@ -15,7 +15,7 @@ let wallmap = "../images/Wall.jpeg";
 
 // Animation
 let itemsgroup = null, wallsgroup = null; 
-let animator = null, loopAnimation = false; 
+let animator = null, loopAnimation = true; 
 let duration = 20000; 
 
 function main()
@@ -137,15 +137,15 @@ function createMap(scene, levelDefinition) {
 
     // Se puede leer el mapa como una arreglo de arreglos
     // [ [] , [] ] 
-    var x, y;
+    var x, y, z;
     for (var row = 0; row < levelDefinition.length; row++) {
         /* 
         Se asignan las coordenadas del mapa para que concuerden con
         el sistema de coordenadas para objetos
         */
-        y = -row;
+        z = -row;
 
-        map[y] = {};
+        map[z] = {};
 
         // Se obtiene la longitud de la fila más larga de la definicion del mapa
         var length = Math.floor(levelDefinition[row].length / 2);
@@ -173,14 +173,14 @@ function createMap(scene, levelDefinition) {
 
             if (wall !== null)
             {
-                wall.position.set( x, y, 0);
-                map[y][x] = wall;
+                wall.position.set( x, 0, z);
+                map[z][x] = wall;
                 wallsgroup.add(wall);
             }
             if(item !== null)
             {
-                item.position.set( x, y, 0);
-                map[y][x] = item;
+                item.position.set( x, 0, z);
+                map[z][x] = item;
                 itemsgroup.add(item);
             }
             /*
@@ -200,7 +200,7 @@ function createMap(scene, levelDefinition) {
 
     // Despues de crear el mapa se establece el centro del mapa
     map.centerX = (map.left + map.right) / 2;
-    map.centerY = (map.bottom + map.top) / 2;
+    map.centerZ = (map.bottom + map.top) / 2;
 
     return map;
 };
@@ -209,7 +209,7 @@ function createMap(scene, levelDefinition) {
 // Funciones auxiliares
 // Creamos el Muro 
 function createWall() {
-    var wallGeometry = new THREE.BoxGeometry(1, 1, 2);
+    var wallGeometry = new THREE.BoxGeometry(1, 2, 1);
     var wall = new THREE.Mesh(wallGeometry, materials["wall"]);
     return wall;
   
@@ -242,13 +242,13 @@ function initAnimations()
         interps:
             [
                 { 
-                    keys:[0, .5, 0], 
+                    keys:[0, .5, 1], 
                     values:[
                             { y : 1 },
-                            { y : 0.5 },
+                            { y : 0 },
                             { y : 1 },
                             ],
-                    target:itemsgroup.scale
+                    target:itemsgroup.position
                 },
                 
             ],
