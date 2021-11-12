@@ -15,6 +15,8 @@ let wallmap = "../images/Wall.jpeg";
 
 // Animation
 let itemsgroup = null, wallsgroup = null; 
+let animator = null, loopAnimation = false; 
+let duration = 20000; 
 
 function main()
 {
@@ -43,6 +45,8 @@ function update()
 
     //Actualiza el control de la camara
     orbitControls.update();
+
+    KF.update();
 }
 
 function createMaterials()
@@ -238,27 +242,31 @@ function initAnimations()
         interps:
             [
                 { 
-                    keys:[0, .5, 1], 
+                    keys:[0, .5, 0], 
                     values:[
                             { y : 1 },
                             { y : 0.5 },
                             { y : 1 },
                             ],
-                    target:wallsgroup.scale
+                    target:itemsgroup.scale
                 },
-                { 
+                
+            ],
+        loop: loopAnimation,
+        duration: duration,
+    });
+
+    /*
+    { 
                     keys:[0, .5, 1], 
                     values:[
                             { y : 0 },
                             { y : Math.PI * 2  },
                             { y : 0 },
                             ],
-                    target:wallsgroup.rotation
+                    target:itemsgroup.rotation
                 },
-            ],
-        loop: loopAnimation,
-        duration: duration,
-    });
+                */
 }
 
 function playAnimations()
