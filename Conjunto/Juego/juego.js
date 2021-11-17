@@ -2,6 +2,12 @@ import * as THREE from '../libs/three.module.js'
 import { GLTFLoader } from '../libs/loaders/GLTFLoader.js';
 import { FirstPersonControls } from '../libs/controls/FirstPersonControls.js';
 
+import { OrbitControls } from '../libs/controls/OrbitControls.js';
+import { OBJLoader } from '../libs/loaders/OBJLoader.js';
+import { MTLLoader } from '../libs/loaders/MTLLoader.js';
+
+
+
 let cameraControllsFirstPerson = null, renderer = null, scene = null, camera = null, group = null, objectList = [], orbitControls = null, prueba = [], LEVEL = [];
 let directionalLight = null, spotLight = null, ambientLight = null;
 
@@ -13,6 +19,11 @@ let wallmap = "../images/Wall.jpeg";
 
 var clock = new THREE.Clock();
 
+// Animation
+let itemsgroup = null, wallsgroup = null; 
+let animator = null, loopAnimation = true; 
+let duration = 20000; 
+
 
 function main()
 {
@@ -21,6 +32,11 @@ function main()
     createScene(canvas);
 
     const mapa = createMap(scene, LEVEL);
+
+    //////////////////////////
+    initAnimations();
+    playAnimations();
+    //////////////////////////
 
     update();
 }
@@ -37,6 +53,8 @@ function update()
 
     //Actualiza el control de la camara
     cameraControllsFirstPerson.update(delta);
+
+    KF.update();
 }
 
 function createMaterials()
@@ -145,6 +163,8 @@ function createMap(scene, levelDefinition) {
     map.left = 0;
     map.right = 0;
 
+    itemsgroup = new THREE.Object3D();
+    wallsgroup = new THREE.Object3D();
 
     // Se puede leer el mapa como una arreglo de arreglos
     // [ [] , [] ] 
@@ -168,30 +188,50 @@ function createMap(scene, levelDefinition) {
             x = column;
 
             var cell = levelDefinition[row][column];
-            var object = null;
+            var wall = null;
+            var item = null; 
 
             // Cada W representa un muro
             if (cell === 'W') {
-                object = createWall();
+                wall = createWall();
             // Cada punto representa un punto 
             } else if (cell === '.') {
-                object = createDot();
+                item = createDot();
             // Cada P representa un powerUp
             }else if (cell === 'P') {
-                object = createPower();
+                item = createPower();
             }
+
+            if (wall !== null)
+            {
+                wall.position.set( x, 0, z);
+                map[z][x] = wall;
+                wallsgroup.add(wall);
+            }
+            if(item !== null)
+            {
+                item.position.set( x, 0, z);
+                map[z][x] = item;
+                itemsgroup.add(item);
+            }
+            /*
             if (object !== null) {
                 //Se guarda el nuevo objeto al arreglo de mapa
-                object.position.set(x, 0, z);
-                map[z][x] = object;
+                object.position.set(x, y, 0);
+                map[y][x] = object;
                 scene.add(object);
             }
+            */
         }
+
+        scene.add(wallsgroup);
+        scene.add(itemsgroup);
+
     }
 
     // Despues de crear el mapa se establece el centro del mapa
     map.centerX = (map.left + map.right) / 2;
-    map.centerY = (map.bottom + map.top) / 2;
+    map.centerZ = (map.bottom + map.top) / 2;
 
     return map;
 };
@@ -224,5 +264,48 @@ function createPower() {
 
 };
 
+
+/////////////////////////////
+// Animation 
+function initAnimations() 
+{
+    animator = new KF.KeyFrameAnimator;
+    animator.init({ 
+        interps:
+            [
+                { 
+                    keys:[0, .5, 1], 
+                    values:[
+                            { y : 1 },
+                            { y : 0 },
+                            { y : 1 },
+                            ],
+                    target:itemsgroup.position
+                },
+                
+            ],
+        loop: loopAnimation,
+        duration: duration,
+    });
+
+    /*
+    { 
+                    keys:[0, .5, 1], 
+                    values:[
+                            { y : 0 },
+                            { y : Math.PI * 2  },
+                            { y : 0 },
+                            ],
+                    target:itemsgroup.rotation
+                },
+                */
+}
+
+function playAnimations()
+{
+    animator.start();
+}
+
+/////////////////////////////////////////
 
 main();
