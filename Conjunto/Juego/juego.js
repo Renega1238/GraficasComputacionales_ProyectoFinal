@@ -148,15 +148,15 @@ function createMap(scene, levelDefinition) {
 
     // Se puede leer el mapa como una arreglo de arreglos
     // [ [] , [] ] 
-    var x, y;
+    var x, y, z;
     for (var row = 0; row < levelDefinition.length; row++) {
         /* 
         Se asignan las coordenadas del mapa para que concuerden con
         el sistema de coordenadas para objetos
         */
-        y = -row;
+        z = -row;
 
-        map[y] = {};
+        map[z] = {};
 
         // Se obtiene la longitud de la fila más larga de la definicion del mapa
         var length = Math.floor(levelDefinition[row].length / 2);
@@ -182,8 +182,8 @@ function createMap(scene, levelDefinition) {
             }
             if (object !== null) {
                 //Se guarda el nuevo objeto al arreglo de mapa
-                object.position.set(x, y, 0);
-                map[y][x] = object;
+                object.position.set(x, 0, z);
+                map[z][x] = object;
                 scene.add(object);
             }
         }
@@ -200,7 +200,7 @@ function createMap(scene, levelDefinition) {
 // Funciones auxiliares
 // Creamos el Muro 
 function createWall() {
-    var wallGeometry = new THREE.BoxGeometry(1, 1, 2);
+    var wallGeometry = new THREE.BoxGeometry(1, 2, 1);
     var wall = new THREE.Mesh(wallGeometry, materials["wall"]);
     return wall;
   
