@@ -122,7 +122,37 @@ function createScene(canvas)
     . es una punto regular amarillo
     P es una bola naranja de powerup
  */
-LEVEL = ['WWWWWWWWWWW','W..W...W..W','W.WWWPWWW.W','W..W...W..W','W.P..W..P.W','W..W...W..W','W.WWWPWWW.W','W..W...W..W','W.WWW.WWW.W','W..P.P.P..W','WWWWWWWWWWW'
+LEVEL = ['WWWWWWWWWWWWWWWWWWWWWWWWWWWW',
+'W............WW............W',
+'W.WWWW.WWWWW.WW.WWWWW.WWWW.W',
+'WPWWWW.WWWWW.WW.WWWWW.WWWWPW',
+'W.WWWW.WWWWW.WW.WWWWW.WWWW.W',
+'W..........................W',
+'W.WWWW.WW.WWWWWWWW.WW.WWWW.W',
+'W.WWWW.WW.WWWWWWWW.WW.WWWW.W',
+'W......WW....WW....WW......W',
+'WWWWWW.WWWW  WW  WWWW.WWWWWW',
+'WWWWWW.WWWW  WW  WWWW.WWWWWW',
+'WWWWWW.WW          WW.WWWWWW',
+'WWWWWW.WW WWWWWWWW WW.WWWWWW',
+'WWWWWW.WW W      W WW.WWWWWW',
+'      .   W      W   .      ',
+'WWWWWW.WW W      W WW.WWWWWW',
+'WWWWWW.WW WWWWWWWW WW.WWWWWW',
+'WWWWWW.WW          WW.WWWWWW',
+'WWWWWW.WW WWWWWWWW WW.WWWWWW',
+'WWWWWW.WW WWWWWWWW WW.WWWWWW',
+'W............WW............W',
+'W.WWWW.WWWW..WW..WWWW.WWWW.W',
+'W.WWWW.WWWW..WW..WWWW.WWWW.W',
+'WP..WW................WW..PW',
+'WWW.WW.WW.WWWWWWWW.WW.WW.WWW',
+'WWW.WW.WW.WWWWWWWW.WW.WW.WWW',
+'W......WW....WW....WW......W',
+'W.WWWWWWWWWW.WW.WWWWWWWWWW.W',
+'W.WWWWWWWWWW.WW.WWWWWWWWWW.W',
+'W..........................W',
+'WWWWWWWWWWWWWWWWWWWWWWWWWWWW',
 ];
 
 function createMap(scene, levelDefinition) {
