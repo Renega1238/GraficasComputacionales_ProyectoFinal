@@ -3,7 +3,7 @@ import { GLTFLoader } from '../libs/loaders/GLTFLoader.js';
 //import { OrbitControls } from '../libs/controls/OrbitControls.js';
 import { FirstPersonControls } from '../libs/controls/FirstPersonControls.js';
 
-let cameraControllsFirstPerson = null, renderer = null, scene = null, camera = null, group = null, objectList = [], orbitControls = null, prueba = [], LEVEL = [];
+let cameraControllsFirstPerson = null, renderer = null, scene = null,pm = null, cameraFollow=null, cameraBBox=null, camera = null, group = null, objectList = [], orbitControls = null, prueba = [], LEVEL = [];
 
 
 let SHADOW_MAP_WIDTH = 4096, SHADOW_MAP_HEIGHT = 4096;
@@ -26,24 +26,37 @@ function main()
 function createScene(canvas) 
 {
     renderer = new THREE.WebGLRenderer( { canvas: canvas, antialias: true } );
-
+    
     renderer.setSize(canvas.width, canvas.height);
-
+    
     renderer.shadowMap.enabled = true;
-
+    
     renderer.shadowMap.type = THREE.BasicShadowMap;
     
     scene = new THREE.Scene();
     scene.background = new THREE.Color (255, 255, 255 );
+    
+    const material1 = new THREE.MeshBasicMaterial( {color: 0xf00000} );
+    const cameraGroup = new THREE.Object3D;
 
-    camera = new THREE.PerspectiveCamera( 45, canvas.width / canvas.height, 1, 4000 );
-    camera.position.set(1, 5, 30);
+    camera = new THREE.PerspectiveCamera( 45, canvas.width / canvas.height, 1, 100 );
+    camera.position.set(1, 0, 30);
+    cameraGroup.add(camera);
 
+    const cameraBox = new THREE.BoxGeometry(2,2,2);
+    cameraFollow = new THREE.Mesh( cameraBox, material1 );
+    cameraFollow.position.copy(camera.position);
+    scene.add(cameraFollow);
 
+    // cameraBBox = new THREE.BoxHelper(cameraFollow,0x00ff00);
+    // cameraBBox.update();
+    // cameraBBox.visible = true;
+    // scene.add(cameraBBox);
 
     cameraControllsFirstPerson = new FirstPersonControls(camera);
-    cameraControllsFirstPerson.lookSpeed = .1;
+    cameraControllsFirstPerson.lookSpeed = .2;
     cameraControllsFirstPerson.movementSpeed = 10;
+    cameraControllsFirstPerson.lookVertical = false;
 
     //orbitControls = new OrbitControls(camera, renderer.domElement);
         
@@ -78,7 +91,7 @@ function createScene(canvas)
     *   Le damos la escena / nombre / coordenadas / escala
     */
     const gltfLoadpacman= new GLTFLoader();
-    var pm = new THREE.Object3D();
+    pm = new THREE.Object3D();
     gltfLoadpacman.load('../models/pac_man.gltf', (gltf, el) => {
         pm  = gltf.scene;
         pm.name = 'pacman';
@@ -97,9 +110,14 @@ function createScene(canvas)
     scene.add( plane );
 
     const geometry1 = new THREE.BoxGeometry( 1, 6, 1 );
-    const material1 = new THREE.MeshBasicMaterial( {color: 0xf00000} );
     const cube = new THREE.Mesh( geometry1, material1 );
+
+    // cubeBBox = new THREE.BoxHelper(cube,0x00ff00);
+    // cubeBBox.update();
+    // cubeBBox.visible = false;
+
     scene.add( cube );
+    // scene.add( cubeBBox );
 
 }
 
@@ -112,8 +130,13 @@ function update()
 
     renderer.render( scene, camera );
 
-   cameraControllsFirstPerson.update(delta);
-
+    cameraControllsFirstPerson.update(delta);
+    cameraFollow.position.copy(camera.position);
+    // console.log(cameraFollow.position);
+    // console.log(camera.position);
+    let cameraBox = new THREE.Box3().setFromObject(cameraFollow) ;
+    let pmBox = new THREE.Box3().setFromObject(pm);
+    cameraBox.intersectsBox(pmBox) ? pm.visible=false : pm.visible=true;
     //orbitControls.update();
 }
 
