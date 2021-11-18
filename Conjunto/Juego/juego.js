@@ -8,8 +8,9 @@ import { MTLLoader } from '../libs/loaders/MTLLoader.js';
 
 
 
-let cameraControllsFirstPerson = null, renderer = null, scene = null, camera = null, group = null, objectList = [], orbitControls = null, prueba = [], LEVEL = [];
+let cameraControllsFirstPerson = null, renderer = null, scene = null, camera = null, cameraFollow = null, group = null, objectList = [], orbitControls = null, prueba = [], LEVEL = [];
 let directionalLight = null, spotLight = null, ambientLight = null;
+let itemsArray = [];
 
 let SHADOW_MAP_WIDTH = 4096, SHADOW_MAP_HEIGHT = 4096;
 
@@ -50,6 +51,13 @@ function update()
     // renderizar a partir de la camara
     renderer.render( scene, camera );
 
+    let cameraBox = new THREE.Box3().setFromObject(cameraFollow);
+    cameraFollow.position.copy(camera.position);
+    for(let i = 0; i<itemsArray.length;i++){
+        let itemCollision = new THREE.Box3().setFromObject(itemsArray[i]);
+        cameraBox.intersectsBox(itemCollision) ? itemsgroup.remove(itemsArray[i]): console.log(camera.position);
+    }
+
 
     //Actualiza el control de la camara
     cameraControllsFirstPerson.update(delta);
@@ -84,12 +92,18 @@ function createScene(canvas)
     scene.background = new THREE.Color (255, 255, 255 );
     //Se crea la camara
     camera = new THREE.PerspectiveCamera( 45, canvas.width / canvas.height, 1, 4000 );
-    camera.position.set(0, -5, 20);
+    camera.position.set(14, 0.5, -23);
 
     cameraControllsFirstPerson = new FirstPersonControls(camera);
     cameraControllsFirstPerson.lookSpeed = .1;
     cameraControllsFirstPerson.movementSpeed = 10;
+    cameraControllsFirstPerson.lookVertical = false;
 
+    const material1 = new THREE.MeshBasicMaterial( {color: 0xf00000} );
+    const cameraBox = new THREE.BoxGeometry(0.5,2,0.5);
+    cameraFollow = new THREE.Mesh( cameraBox, material1 );
+    cameraFollow.position.copy(camera.position);
+    scene.add(cameraFollow);
       
     /* 
     * Luz direccional
@@ -204,7 +218,7 @@ function createMap(scene, levelDefinition) {
 
             if (wall !== null)
             {
-                wall.position.set( x, 0, z);
+                wall.position.set( x, 0.5, z);
                 map[z][x] = wall;
                 wallsgroup.add(wall);
             }
@@ -213,6 +227,7 @@ function createMap(scene, levelDefinition) {
                 item.position.set( x, 0, z);
                 map[z][x] = item;
                 itemsgroup.add(item);
+                itemsArray.push(item);
             }
             /*
             if (object !== null) {
