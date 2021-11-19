@@ -11,6 +11,7 @@ import { MTLLoader } from '../libs/loaders/MTLLoader.js';
 let cameraControllsFirstPerson = null, renderer = null, scene = null, camera = null, cameraFollow = null, group = null, objectList = [], orbitControls = null, prueba = [], LEVEL = [];
 let directionalLight = null, spotLight = null, ambientLight = null;
 let itemsArray = [];
+// let wallsArray = [];
 
 let SHADOW_MAP_WIDTH = 4096, SHADOW_MAP_HEIGHT = 4096;
 
@@ -50,17 +51,27 @@ function update()
     
     // renderizar a partir de la camara
     renderer.render( scene, camera );
-
-    let cameraBox = new THREE.Box3().setFromObject(cameraFollow);
-    cameraFollow.position.copy(camera.position);
-    for(let i = 0; i<itemsArray.length;i++){
-        let itemCollision = new THREE.Box3().setFromObject(itemsArray[i]);
-        cameraBox.intersectsBox(itemCollision) ? itemsgroup.remove(itemsArray[i]): console.log(camera.position);
-    }
-
-
+    
     //Actualiza el control de la camara
     cameraControllsFirstPerson.update(delta);
+    // let previousPos = camera.position;
+    
+    //Detección de colisiones con items donde Box3 es el collider del objeto
+    let cameraBox = new THREE.Box3().setFromObject(cameraFollow);
+    cameraFollow.position.copy(camera.position);
+    // Revisa intersecciones con objetos para eliminarlos del mapa
+    for(let i = 0; i<itemsArray.length;i++){
+        let itemCollision = new THREE.Box3().setFromObject(itemsArray[i]);
+        if(cameraBox.intersectsBox(itemCollision)) itemsgroup.remove(itemsArray[i]);
+    }
+    /* Seccion colisiones con muros
+    for(let i = 0; i<wallsArray.length;i++){
+        let wallCollision = new THREE.Box3().setFromObject(wallsArray[i]);
+        if(cameraBox.intersectsBox(wallCollision)){
+            camera.position.copy(previousPos);
+            console.log("lol")
+        } 
+    } */
 
     KF.update();
 }
@@ -99,6 +110,7 @@ function createScene(canvas)
     cameraControllsFirstPerson.movementSpeed = 10;
     cameraControllsFirstPerson.lookVertical = false;
 
+    // Se crea una caja que funcionará para las colisiones
     const material1 = new THREE.MeshBasicMaterial( {color: 0xf00000} );
     const cameraBox = new THREE.BoxGeometry(0.5,2,0.5);
     cameraFollow = new THREE.Mesh( cameraBox, material1 );
@@ -221,6 +233,7 @@ function createMap(scene, levelDefinition) {
                 wall.position.set( x, 0.5, z);
                 map[z][x] = wall;
                 wallsgroup.add(wall);
+                // wallsArray.push(wall);
             }
             if(item !== null)
             {
