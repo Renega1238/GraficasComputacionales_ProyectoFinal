@@ -134,7 +134,7 @@ function createScene(canvas)
 
     // Se crea una caja que funcionará para las colisiones
     const material1 = new THREE.MeshBasicMaterial( {color: 0xf00000} );
-    const cameraBox = new THREE.BoxGeometry(0.25,2,0.25);
+    const cameraBox = new THREE.BoxGeometry(0.4,2,0.4);
     cameraFollow = new THREE.Mesh( cameraBox, material1 );
     cameraFollow.position.copy(camera.position);
     // cameraFollow.rotation.copy(camera.rotation);
