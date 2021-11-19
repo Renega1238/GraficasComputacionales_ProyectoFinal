@@ -10,14 +10,29 @@
 </script>
 <script src="../libs/keyframe.js/keyframe.js"></script>
 <script src="../libs/tween.js/tween.js"></script>
-
+<style>
+	#score{
+		display: inline;
+		position: absolute;
+		font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+		font-size: xx-large;
+		color: white;
+	}
+	#webglcanvas{
+		display: inline;
+		position: absolute;
+	}
+	</style>
 </head>
 
 <body>
 <div id="container">
-    <canvas id="webglcanvas" width=800 height=600></canvas>
-	<div id="title">
-		PacMan Map
+    <canvas id="webglcanvas" width=1250 height=600></canvas>
+	<div id ="score">
+		Score: 
+		<div id="title">
+			PacMan Map
+		</div>
 	</div>
 
 </html>

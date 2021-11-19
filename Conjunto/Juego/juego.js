@@ -8,9 +8,10 @@ import { MTLLoader } from '../libs/loaders/MTLLoader.js';
 
 
 
-let cameraControllsFirstPerson = null, renderer = null, scene = null, camera = null, cameraFollow = null, group = null, objectList = [], orbitControls = null, prueba = [], LEVEL = [];
+let cameraControllsFirstPerson = null, renderer = null, scene = null, score = null, camera = null, cameraFollow = null, group = null, objectList = [], orbitControls = null, prueba = [], LEVEL = [];
 let directionalLight = null, spotLight = null, ambientLight = null;
-let itemsArray = [];
+let dotsArray = [];
+let powerArray = [];
 let wallsArray = [];
 
 let SHADOW_MAP_WIDTH = 4096, SHADOW_MAP_HEIGHT = 4096;
@@ -22,9 +23,9 @@ let wallmap = "../images/Wall.jpeg";
 var clock = new THREE.Clock();
 
 // Animation
-let itemsgroup = null, wallsgroup = null; 
+let dotsgroup = null, wallsgroup = null, powergroup = null; 
 let animator = null, loopAnimation = true; 
-let duration = 20000; 
+let duration = 5000; 
 
 
 function main()
@@ -61,20 +62,36 @@ function update()
     //Detección de colisiones con items donde Box3 es el collider del objeto
     let cameraBox = new THREE.Box3().setFromObject(cameraFollow);
     cameraFollow.position.copy(camera.position);
-    cameraFollow.rotation.copy(camera.rotation);
+    // cameraFollow.rotation.copy(camera.rotation);
     // cameraFollow.position.z += .5;
     // Revisa intersecciones con objetos para eliminarlos del mapa
-    for(let i = 0; i<itemsArray.length;i++){
-        let itemCollision = new THREE.Box3().setFromObject(itemsArray[i]);
-        if(cameraBox.intersectsBox(itemCollision)) itemsgroup.remove(itemsArray[i]);
+    for(let i = 0; i<dotsArray.length;i++){
+        let dotCollision = new THREE.Box3().setFromObject(dotsArray[i]);
+        if(cameraBox.intersectsBox(dotCollision)){
+            score += 10;
+            document.getElementById("title").innerHTML = score;
+            // console.log("Score: ",score);
+            dotsgroup.remove(dotsArray[i]);
+            dotsArray.splice(i,1);
+        } 
+    }
+    for(let i = 0; i<powerArray.length;i++){
+        let powerCollision = new THREE.Box3().setFromObject(powerArray[i]);
+        if(cameraBox.intersectsBox(powerCollision)){
+            score += 50;
+            document.getElementById("title").innerHTML = score;
+            // console.log("Score: ",score);
+            powergroup.remove(powerArray[i]);
+            powerArray.splice(i,1);
+        } 
     }
     // Seccion colisiones con muros
     for(let i = 0; i<wallsArray.length;i++){
         let wallCollision = new THREE.Box3().setFromObject(wallsArray[i]);
         if(cameraBox.intersectsBox(wallCollision)){
             camera.position.copy(previousPos);
-            console.log("prev: ",previousPos);
-            console.log("camera: ",camera.position);
+            // console.log("prev: ",previousPos);
+            // console.log("camera: ",camera.position);
         } 
     }
 
@@ -120,7 +137,7 @@ function createScene(canvas)
     const cameraBox = new THREE.BoxGeometry(0.25,2,0.25);
     cameraFollow = new THREE.Mesh( cameraBox, material1 );
     cameraFollow.position.copy(camera.position);
-    cameraFollow.rotation.copy(camera.rotation);
+    // cameraFollow.rotation.copy(camera.rotation);
     scene.add(cameraFollow);
       
     /* 
@@ -195,7 +212,8 @@ function createMap(scene, levelDefinition) {
     map.left = 0;
     map.right = 0;
 
-    itemsgroup = new THREE.Object3D();
+    dotsgroup = new THREE.Object3D();
+    powergroup = new THREE.Object3D();
     wallsgroup = new THREE.Object3D();
 
     // Se puede leer el mapa como una arreglo de arreglos
@@ -221,17 +239,18 @@ function createMap(scene, levelDefinition) {
 
             var cell = levelDefinition[row][column];
             var wall = null;
-            var item = null; 
+            var dot = null; 
+            var power = null;
 
             // Cada W representa un muro
             if (cell === 'W') {
                 wall = createWall();
             // Cada punto representa un punto 
             } else if (cell === '.') {
-                item = createDot();
+                dot = createDot();
             // Cada P representa un powerUp
             }else if (cell === 'P') {
-                item = createPower();
+                power = createPower();
             }
 
             if (wall !== null)
@@ -241,12 +260,19 @@ function createMap(scene, levelDefinition) {
                 wallsgroup.add(wall);
                 wallsArray.push(wall);
             }
-            if(item !== null)
+            if(dot !== null)
             {
-                item.position.set( x, 0, z);
-                map[z][x] = item;
-                itemsgroup.add(item);
-                itemsArray.push(item);
+                dot.position.set( x, 0, z);
+                map[z][x] = dot;
+                dotsgroup.add(dot);
+                dotsArray.push(dot);
+            }
+            if(power !== null)
+            {
+                power.position.set( x, 0, z);
+                map[z][x] = power;
+                powergroup.add(power);
+                powerArray.push(power);
             }
             /*
             if (object !== null) {
@@ -259,7 +285,8 @@ function createMap(scene, levelDefinition) {
         }
 
         scene.add(wallsgroup);
-        scene.add(itemsgroup);
+        scene.add(dotsgroup);
+        scene.add(powergroup);
 
     }
 
@@ -282,7 +309,7 @@ function createWall() {
 
 // Creamos el punto 
 function createDot() {
-    var dotGeometry = new THREE.SphereGeometry( .2, 20, 20);
+    var dotGeometry = new THREE.SphereGeometry( .1, 20, 20);
     var dotMaterial = new THREE.MeshPhongMaterial({ color: "yellow"}); // Paech color
     var dot = new THREE.Mesh(dotGeometry, dotMaterial);
     return dot;
@@ -310,11 +337,11 @@ function initAnimations()
                 { 
                     keys:[0, .5, 1], 
                     values:[
-                            { y : 1 },
+                            { y : 0.5 },
                             { y : 0 },
-                            { y : 1 },
+                            { y : 0.5 },
                             ],
-                    target:itemsgroup.position
+                    target:dotsgroup.position
                 },
                 
             ],
@@ -330,7 +357,7 @@ function initAnimations()
                             { y : Math.PI * 2  },
                             { y : 0 },
                             ],
-                    target:itemsgroup.rotation
+                    target:dotsgroup.rotation
                 },
                 */
 }
