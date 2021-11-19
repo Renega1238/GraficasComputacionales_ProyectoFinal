@@ -24,7 +24,7 @@ var clock = new THREE.Clock();
 
 // Animation
 let dotsgroup = null, wallsgroup = null, powergroup = null; 
-let animator = null, loopAnimation = true; 
+let animator = null, animator2 = null, loopAnimation = true,loopAnimation2 = true; 
 let duration = 5000; 
 
 
@@ -348,6 +348,24 @@ function initAnimations()
         loop: loopAnimation,
         duration: duration,
     });
+    animator2 = new KF.KeyFrameAnimator;
+    animator2.init({ 
+        interps:
+            [
+                { 
+                    keys:[0, .5, 1], 
+                    values:[
+                            { y : 0.5 },
+                            { y : 0 },
+                            { y : 0.5 },
+                            ],
+                    target:powergroup.position
+                },
+                
+            ],
+        loop: loopAnimation2,
+        duration: duration,
+    });
 
     /*
     { 
@@ -365,6 +383,7 @@ function initAnimations()
 function playAnimations()
 {
     animator.start();
+    animator2.start();
 }
 
 /////////////////////////////////////////
