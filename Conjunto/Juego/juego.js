@@ -216,6 +216,19 @@ function createMap(scene, levelDefinition) {
     powergroup = new THREE.Object3D();
     wallsgroup = new THREE.Object3D();
 
+    let lightArr = [];
+    // Lights
+    const light = new THREE.PointLight( 0xffccaa, 1, 0 );
+    const light2 = new THREE.PointLight( 0xffccaa, 1, 0 );
+    const light3 = new THREE.PointLight( 0xffccaa, 1, 0 );
+    const light4 = new THREE.PointLight( 0xffccaa, 1, 0 );
+
+    lightArr.push(light);
+    lightArr.push(light2);
+    lightArr.push(light3);
+    lightArr.push(light4);
+    
+    let i = 0; 
     // Se puede leer el mapa como una arreglo de arreglos
     // [ [] , [] ] 
     var x, y, z;
@@ -270,6 +283,11 @@ function createMap(scene, levelDefinition) {
             if(power !== null)
             {
                 power.position.set( x, 0, z);
+
+                // Light
+                //light.position.set( x,0,z );
+                lightArr[i++].position.set(x, 0, z);
+                ////////////
                 map[z][x] = power;
                 powergroup.add(power);
                 powerArray.push(power);
@@ -287,6 +305,11 @@ function createMap(scene, levelDefinition) {
         scene.add(wallsgroup);
         scene.add(dotsgroup);
         scene.add(powergroup);
+
+        lightArr.forEach(e =>
+            {
+                scene.add(e);
+            })
 
     }
 
