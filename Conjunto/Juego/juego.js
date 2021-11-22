@@ -1,7 +1,6 @@
 import * as THREE from '../libs/three.module.js'
 import { GLTFLoader } from '../libs/loaders/GLTFLoader.js';
 import { FirstPersonControls } from '../libs/controls/FirstPersonControls.js';
-
 import { OrbitControls } from '../libs/controls/OrbitControls.js';
 import { OBJLoader } from '../libs/loaders/OBJLoader.js';
 import { MTLLoader } from '../libs/loaders/MTLLoader.js';
@@ -9,6 +8,7 @@ import { MTLLoader } from '../libs/loaders/MTLLoader.js';
 
 
 let cameraControllsFirstPerson = null, renderer = null, scene = null, score = null, camera = null, cameraFollow = null, group = null, objectList = [], orbitControls = null, prueba = [], LEVEL = [];
+let gh1 = null, gh1Dir = null;
 let directionalLight = null, spotLight = null, ambientLight = null;
 let dotsArray = [];
 let powerArray = [];
@@ -58,9 +58,12 @@ function update()
     let previousPos = new THREE.Vector3();
     previousPos.copy(camera.position);
     cameraControllsFirstPerson.update(delta);
+    ghostMovement(true);
     
     //Detección de colisiones con items donde Box3 es el collider del objeto
     let cameraBox = new THREE.Box3().setFromObject(cameraFollow);
+    let gh1Box = new THREE.Box3().setFromObject(gh1);
+
     cameraFollow.position.copy(camera.position);
     // cameraFollow.rotation.copy(camera.rotation);
     // cameraFollow.position.z += .5;
@@ -86,6 +89,7 @@ function update()
         } 
     }
     // Seccion colisiones con muros
+    let collisionCheck = false;
     for(let i = 0; i<wallsArray.length;i++){
         let wallCollision = new THREE.Box3().setFromObject(wallsArray[i]);
         if(cameraBox.intersectsBox(wallCollision)){
@@ -93,6 +97,15 @@ function update()
             // console.log("prev: ",previousPos);
             // console.log("camera: ",camera.position);
         } 
+        // ghost1 wall collision
+        if(gh1Box.intersectsBox(wallCollision) && collisionCheck == false){
+            collisionCheck = true;
+            ghostMovement(false);
+            changeDir(1);
+        }
+    }
+    if(gh1Box.intersectsBox(cameraBox)){
+        console.log("Game Over");
     }
 
     KF.update();
@@ -164,6 +177,19 @@ function createScene(canvas)
     
     spotLight.shadow.mapSize.width = SHADOW_MAP_WIDTH;
     spotLight.shadow.mapSize.height = SHADOW_MAP_HEIGHT;
+    
+    // Creation of ghost
+    const gltfLoadGhost1= new GLTFLoader();
+    gh1 = new THREE.Object3D();
+    gltfLoadGhost1.load('../models/Fgreen.gltf', (gltf, el) => {
+        gh1  = gltf.scene;
+        gh1.name = 'ghost1';
+        gh1.position.set(14, -0.4, -23)
+        gh1.scale.set(.3, .3, .3)
+        // gh1.rotation.y =0;
+    scene.add(gh1)});
+    gh1Dir = 'u';
+
 
     // Ambient Light ilumina todos los elementos de la escena de manera pareja
     ambientLight = new THREE.AmbientLight ( 0x444444, 0.8);
@@ -410,5 +436,56 @@ function playAnimations()
 }
 
 /////////////////////////////////////////
+//function for changing directions where u=up r=right d=down l=left and number is the number of the ghost
+function changeDir(number){
+    if(number == 1){
+        let direc = Math.floor(Math.random() * 3);
+        switch(gh1Dir){
+            // if the ghost was moving up it 
+            case 'u':
+                if(direc == 0) gh1Dir = 'r';
+                else if(direc == 1) gh1Dir = 'd';
+                else if(direc == 2) gh1Dir = 'l';
+                break;
+            case 'r':
+                if(direc == 0) gh1Dir = 'd';
+                else if(direc == 1) gh1Dir = 'l';
+                else if(direc == 2) gh1Dir = 'u';
+                break;
+            case 'd':
+                if(direc == 0) gh1Dir = 'l';
+                else if(direc == 1) gh1Dir = 'u';
+                else if(direc == 2) gh1Dir = 'r';
+                break;
+            case 'l':
+                if(direc == 0) gh1Dir = 'u';
+                else if(direc == 1) gh1Dir = 'r';
+                else if(direc == 2) gh1Dir = 'd';
+                break;
+                default:
+                    console.error("error in ghost direction");
+
+            
+        }
+        
+    }
+}
+function ghostMovement(forward){
+    let moveSpeed = 0.01;
+    if(forward == false){
+        moveSpeed *= -1;
+    }
+    if(gh1Dir=='u'){
+        gh1.translateZ(moveSpeed);
+    }else if(gh1Dir=='r'){
+        gh1.translateX(moveSpeed);
+    }else if(gh1Dir=='d'){
+        gh1.translateZ(-moveSpeed);
+    }else if(gh1Dir=='l'){
+        gh1.translateX(-moveSpeed);
+    }else{
+        console.error("error in ghost movement");
+    }
+}
 
 main();
