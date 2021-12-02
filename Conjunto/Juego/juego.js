@@ -5,10 +5,9 @@ import { OrbitControls } from '../libs/controls/OrbitControls.js';
 import { OBJLoader } from '../libs/loaders/OBJLoader.js';
 import { MTLLoader } from '../libs/loaders/MTLLoader.js';
 
-
-
+//declaracion de entidades y variables globales
 let cameraControllsFirstPerson = null, renderer = null, scene = null, score = null, camera = null, cameraFollow = null, group = null, objectList = [], orbitControls = null, prueba = [], LEVEL = [];
-let gh1 = null, gh1Dir = null;
+let gh1 = null, gh1Dir = null,gh2 = null, gh2Dir = null,gh3 = null, gh3Dir = null,gh4 = null, gh4Dir = null;
 let directionalLight = null, spotLight = null, ambientLight = null;
 let dotsArray = [];
 let powerArray = [];
@@ -54,15 +53,22 @@ function update()
     renderer.render( scene, camera );
     
     //Actualiza el control de la camara
-    // let previousPos = camera.position;
     let previousPos = new THREE.Vector3();
     previousPos.copy(camera.position);
     cameraControllsFirstPerson.update(delta);
-    ghostMovement(true);
+    
+    //Mueve a cada fantasma, true es movimiento hacia adelante y false es que regrese una posición
+    ghostMovement(1,true);
+    ghostMovement(2,true);
+    ghostMovement(3,true);
+    ghostMovement(4,true);
     
     //Detección de colisiones con items donde Box3 es el collider del objeto
     let cameraBox = new THREE.Box3().setFromObject(cameraFollow);
     let gh1Box = new THREE.Box3().setFromObject(gh1);
+    let gh2Box = new THREE.Box3().setFromObject(gh2);
+    let gh3Box = new THREE.Box3().setFromObject(gh3);
+    let gh4Box = new THREE.Box3().setFromObject(gh4);
 
     cameraFollow.position.copy(camera.position);
     // cameraFollow.rotation.copy(camera.rotation);
@@ -89,22 +95,40 @@ function update()
         } 
     }
     // Seccion colisiones con muros
-    let collisionCheck = false;
+    let collisionCheck1 = false;
+    let collisionCheck2 = false;
+    let collisionCheck3 = false;
+    let collisionCheck4 = false;
     for(let i = 0; i<wallsArray.length;i++){
         let wallCollision = new THREE.Box3().setFromObject(wallsArray[i]);
         if(cameraBox.intersectsBox(wallCollision)){
             camera.position.copy(previousPos);
             // console.log("prev: ",previousPos);
             // console.log("camera: ",camera.position);
-        } 
+        }
         // ghost1 wall collision
-        if(gh1Box.intersectsBox(wallCollision) && collisionCheck == false){
-            collisionCheck = true;
-            ghostMovement(false);
+        if(gh1Box.intersectsBox(wallCollision) && collisionCheck1 == false){
+            collisionCheck1 = true;
+            ghostMovement(1,false);
             changeDir(1);
         }
+        if(gh2Box.intersectsBox(wallCollision) && collisionCheck2 == false){
+            collisionCheck2 = true;
+            ghostMovement(2,false);
+            changeDir(2);
+        }
+        if(gh3Box.intersectsBox(wallCollision) && collisionCheck3 == false){
+            collisionCheck3 = true;
+            ghostMovement(3,false);
+            changeDir(3);
+        }
+        if(gh4Box.intersectsBox(wallCollision) && collisionCheck4 == false){
+            collisionCheck4 = true;
+            ghostMovement(4,false);
+            changeDir(4);
+        }
     }
-    if(gh1Box.intersectsBox(cameraBox)){
+    if(gh1Box.intersectsBox(cameraBox)||gh2Box.intersectsBox(cameraBox)||gh3Box.intersectsBox(cameraBox)||gh4Box.intersectsBox(cameraBox)){
         console.log("Game Over");
     }
 
@@ -181,14 +205,47 @@ function createScene(canvas)
     // Creation of ghost
     const gltfLoadGhost1= new GLTFLoader();
     gh1 = new THREE.Object3D();
-    gltfLoadGhost1.load('../models/Fgreen.gltf', (gltf, el) => {
+    gltfLoadGhost1.load('../models/Fblue.gltf', (gltf, el) => {
         gh1  = gltf.scene;
         gh1.name = 'ghost1';
-        gh1.position.set(14, -0.4, -23)
+        gh1.position.set(11.75, -0.4, -9)
         gh1.scale.set(.3, .3, .3)
         // gh1.rotation.y =0;
     scene.add(gh1)});
     gh1Dir = 'u';
+    
+    const gltfLoadGhost2= new GLTFLoader();
+    gh2 = new THREE.Object3D();
+    gltfLoadGhost2.load('../models/Fgreen.gltf', (gltf, el) => {
+        gh2  = gltf.scene;
+        gh2.name = 'ghost1';
+        gh2.position.set(14.75, -0.4, -9)
+        gh2.scale.set(.3, .3, .3)
+        // gh2.rotation.y =0;
+    scene.add(gh2)});
+    gh2Dir = 'u';
+    
+    const gltfLoadGhost3= new GLTFLoader();
+    gh3 = new THREE.Object3D();
+    gltfLoadGhost3.load('../models/Fred.gltf', (gltf, el) => {
+        gh3  = gltf.scene;
+        gh3.name = 'ghost1';
+        gh3.position.set(19, -0.4, -14)
+        gh3.scale.set(.3, .3, .3)
+        // gh3.rotation.y =0;
+    scene.add(gh3)});
+    gh3Dir = 'u';
+   
+    const gltfLoadGhost4= new GLTFLoader();
+    gh4 = new THREE.Object3D();
+    gltfLoadGhost4.load('../models/Fyellowgltf.gltf', (gltf, el) => {
+        gh4  = gltf.scene;
+        gh4.name = 'ghost1';
+        gh4.position.set(8.75, -0.4, -18)
+        gh4.scale.set(.3, .3, .3)
+        // gh4.rotation.y =0;
+    scene.add(gh4)});
+    gh4Dir = 'u';
 
 
     // Ambient Light ilumina todos los elementos de la escena de manera pareja
@@ -207,12 +264,12 @@ LEVEL = [
 'W.WWWW.WW.WWWWWWWW.WW.WWWW.W',
 'W.WWWW.WW.WWWWWWWW.WW.WWWW.W',
 'W......WW....WW....WW......W',
-'WWWWWW.WWWW  WW  WWWW.WWWWWW',
-'WWWWWW.WWWW  WW  WWWW.WWWWWW',
+'WWWWWW.WWWWW WW WWWWW.WWWWWW',
+'WWWWWW.WWWWW WW WWWWW.WWWWWW',
 'WWWWWW.WW          WW.WWWWWW',
 'WWWWWW.WW WWWWWWWW WW.WWWWWW',
 'WWWWWW.WW W      W WW.WWWWWW',
-'      .   W      W   .      ',
+'W     .   W      W   .     W',
 'WWWWWW.WW W      W WW.WWWWWW',
 'WWWWWW.WW WWWWWWWW WW.WWWWWW',
 'WWWWWW.WW          WW.WWWWWW',
@@ -469,23 +526,166 @@ function changeDir(number){
         }
         
     }
+    if(number == 2){
+        let direc = Math.floor(Math.random() * 3);
+        switch(gh2Dir){
+            // if the ghost was moving up it 
+            case 'u':
+                if(direc == 0) gh2Dir = 'r';
+                else if(direc == 1) gh2Dir = 'd';
+                else if(direc == 2) gh2Dir = 'l';
+                break;
+            case 'r':
+                if(direc == 0) gh2Dir = 'd';
+                else if(direc == 1) gh2Dir = 'l';
+                else if(direc == 2) gh2Dir = 'u';
+                break;
+            case 'd':
+                if(direc == 0) gh2Dir = 'l';
+                else if(direc == 1) gh2Dir = 'u';
+                else if(direc == 2) gh2Dir = 'r';
+                break;
+            case 'l':
+                if(direc == 0) gh2Dir = 'u';
+                else if(direc == 1) gh2Dir = 'r';
+                else if(direc == 2) gh2Dir = 'd';
+                break;
+                default:
+                    console.error("error in ghost direction");
+
+            
+        }
+        
+    }
+    if(number == 3){
+        let direc = Math.floor(Math.random() * 3);
+        switch(gh3Dir){
+            // if the ghost was moving up it 
+            case 'u':
+                if(direc == 0) gh3Dir = 'r';
+                else if(direc == 1) gh3Dir = 'd';
+                else if(direc == 2) gh3Dir = 'l';
+                break;
+            case 'r':
+                if(direc == 0) gh3Dir = 'd';
+                else if(direc == 1) gh3Dir = 'l';
+                else if(direc == 2) gh3Dir = 'u';
+                break;
+            case 'd':
+                if(direc == 0) gh3Dir = 'l';
+                else if(direc == 1) gh3Dir = 'u';
+                else if(direc == 2) gh3Dir = 'r';
+                break;
+            case 'l':
+                if(direc == 0) gh3Dir = 'u';
+                else if(direc == 1) gh3Dir = 'r';
+                else if(direc == 2) gh3Dir = 'd';
+                break;
+                default:
+                    console.error("error in ghost direction");
+
+            
+        }
+    }
+    if(number == 4){
+        let direc = Math.floor(Math.random() * 3);
+        switch(gh4Dir){
+            // if the ghost was moving up it 
+            case 'u':
+                if(direc == 0) gh4Dir = 'r';
+                else if(direc == 1) gh4Dir = 'd';
+                else if(direc == 2) gh4Dir = 'l';
+                break;
+            case 'r':
+                if(direc == 0) gh4Dir = 'd';
+                else if(direc == 1) gh4Dir = 'l';
+                else if(direc == 2) gh4Dir = 'u';
+                break;
+            case 'd':
+                if(direc == 0) gh4Dir = 'l';
+                else if(direc == 1) gh4Dir = 'u';
+                else if(direc == 2) gh4Dir = 'r';
+                break;
+            case 'l':
+                if(direc == 0) gh4Dir = 'u';
+                else if(direc == 1) gh4Dir = 'r';
+                else if(direc == 2) gh4Dir = 'd';
+                break;
+                default:
+                    console.error("error in ghost direction");
+        }
+        
+    }
 }
-function ghostMovement(forward){
+function ghostMovement(number, forward){
     let moveSpeed = 0.01;
-    if(forward == false){
-        moveSpeed *= -1;
+    switch(number){
+        case 1:
+            if(forward == false){
+                moveSpeed *= -1;
+            }
+            if(gh1Dir=='u'){
+                gh1.translateZ(moveSpeed);
+            }else if(gh1Dir=='r'){
+                gh1.translateX(moveSpeed);
+            }else if(gh1Dir=='d'){
+                gh1.translateZ(-moveSpeed);
+            }else if(gh1Dir=='l'){
+                gh1.translateX(-moveSpeed);
+            }else{
+                console.error("error in ghost movement");
+            }
+            break;
+        case 2:
+            if(forward == false){
+                moveSpeed *= -1;
+            }
+            if(gh2Dir=='u'){
+                gh2.translateZ(moveSpeed);
+            }else if(gh2Dir=='r'){
+                gh2.translateX(moveSpeed);
+            }else if(gh2Dir=='d'){
+                gh2.translateZ(-moveSpeed);
+            }else if(gh2Dir=='l'){
+                gh2.translateX(-moveSpeed);
+            }else{
+                console.error("error in ghost movement");
+            }
+            break;
+        case 3:
+            if(forward == false){
+                moveSpeed *= -1;
+            }
+            if(gh3Dir=='u'){
+                gh3.translateZ(moveSpeed);
+            }else if(gh3Dir=='r'){
+                gh3.translateX(moveSpeed);
+            }else if(gh3Dir=='d'){
+                gh3.translateZ(-moveSpeed);
+            }else if(gh3Dir=='l'){
+                gh3.translateX(-moveSpeed);
+            }else{
+                console.error("error in ghost movement");
+            }
+            break;
+        case 4:
+            if(forward == false){
+                moveSpeed *= -1;
+            }
+            if(gh4Dir=='u'){
+                gh4.translateZ(moveSpeed);
+            }else if(gh4Dir=='r'){
+                gh4.translateX(moveSpeed);
+            }else if(gh4Dir=='d'){
+                gh4.translateZ(-moveSpeed);
+            }else if(gh4Dir=='l'){
+                gh4.translateX(-moveSpeed);
+            }else{
+                console.error("error in ghost movement");
+            }
+            break;
     }
-    if(gh1Dir=='u'){
-        gh1.translateZ(moveSpeed);
-    }else if(gh1Dir=='r'){
-        gh1.translateX(moveSpeed);
-    }else if(gh1Dir=='d'){
-        gh1.translateZ(-moveSpeed);
-    }else if(gh1Dir=='l'){
-        gh1.translateX(-moveSpeed);
-    }else{
-        console.error("error in ghost movement");
-    }
+    
 }
 
 main();
