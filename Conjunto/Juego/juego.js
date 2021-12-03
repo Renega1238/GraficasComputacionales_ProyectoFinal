@@ -333,7 +333,7 @@ function createMap(scene, levelDefinition) {
     powergroup = new THREE.Object3D();
     wallsgroup = new THREE.Object3D();
 
-    lightArr = [];
+    let lightArr = [];
     // Lights
     const light = new THREE.PointLight( 0xffccaa, 0.5, 0 );
     const light2 = new THREE.PointLight( 0xffccaa, 0.5, 0 );
