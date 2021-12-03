@@ -97,6 +97,7 @@ function update()
     }
     if((powerArray.length + dotsArray.length) <= 0){
         console.log("¡¡Ganaste!!");
+        final();
     }
     // Seccion colisiones con muros
     let collisionCheck1 = false;
@@ -134,6 +135,7 @@ function update()
     }
     if(gh1Box.intersectsBox(cameraBox)||gh2Box.intersectsBox(cameraBox)||gh3Box.intersectsBox(cameraBox)||gh4Box.intersectsBox(cameraBox)){
         console.log("Game Over");
+        final();
     }
 
     KF.update();
@@ -147,6 +149,10 @@ function createMaterials()
     materials["wall"] = new THREE.MeshPhongMaterial({map: textureMap});
 
 }
+function touchStarted() {
+    getAudioContext().resume();
+  }
+
 function createScene(canvas) 
 {
     //Se crean los materiales
@@ -719,5 +725,8 @@ function ghostMovement(number, forward){
     }
     
 }
-
+function final(){
+    let canvas = document.getElementById("webglcanvas");
+    canvas.style.display = "none";
+}
 main();
