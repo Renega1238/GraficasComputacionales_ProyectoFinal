@@ -30,7 +30,8 @@ let duration = 5000;
 function main()
 {
     const canvas = document.getElementById("webglcanvas");
-
+    canvas.width = document.body.clientWidth;
+    canvas.height = document.body.clientHeight;
     createScene(canvas);
 
     const mapa = createMap(scene, LEVEL);
