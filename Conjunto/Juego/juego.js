@@ -149,10 +149,6 @@ function createMaterials()
     materials["wall"] = new THREE.MeshPhongMaterial({map: textureMap});
 
 }
-function touchStarted() {
-    getAudioContext().resume();
-  }
-
 function createScene(canvas) 
 {
     //Se crean los materiales
@@ -219,17 +215,17 @@ function createScene(canvas)
     * Luz direccional
     * Esta luz se posiciona en un plano infinitamente lejano y ilumina hacia una dirección
     */
-    directionalLight = new THREE.DirectionalLight( 0xaaaaaa, 1);
+    directionalLight = new THREE.DirectionalLight( 0xaaaaaa, 0);
 
     directionalLight.position.set(.5, 1, -3);
     directionalLight.target.position.set(0,0,0);
     directionalLight.castShadow = true;
-    scene.add(directionalLight);
+    // scene.add(directionalLight);
 
     spotLight = new THREE.SpotLight (0xaaaaaa);
     spotLight.position.set(6, 8, 15);
     spotLight.target.position.set(-2, 0, -2);
-    scene.add(spotLight);
+    // scene.add(spotLight);
 
     spotLight.castShadow = true;
 
@@ -287,7 +283,7 @@ function createScene(canvas)
 
 
     // Ambient Light ilumina todos los elementos de la escena de manera pareja
-    ambientLight = new THREE.AmbientLight ( 0x444444, 0.8);
+    ambientLight = new THREE.AmbientLight ( 0x444444, 0.3);
     scene.add(ambientLight);
     
 }
@@ -337,12 +333,12 @@ function createMap(scene, levelDefinition) {
     powergroup = new THREE.Object3D();
     wallsgroup = new THREE.Object3D();
 
-    let lightArr = [];
+    lightArr = [];
     // Lights
-    const light = new THREE.PointLight( 0xffccaa, 1, 0 );
-    const light2 = new THREE.PointLight( 0xffccaa, 1, 0 );
-    const light3 = new THREE.PointLight( 0xffccaa, 1, 0 );
-    const light4 = new THREE.PointLight( 0xffccaa, 1, 0 );
+    const light = new THREE.PointLight( 0xffccaa, 0.5, 0 );
+    const light2 = new THREE.PointLight( 0xffccaa, 0.5, 0 );
+    const light3 = new THREE.PointLight( 0xffccaa, 0.5, 0 );
+    const light4 = new THREE.PointLight( 0xffccaa, 0.5, 0 );
 
     lightArr.push(light);
     lightArr.push(light2);
@@ -655,7 +651,9 @@ function changeDir(number){
         
     }
 }
+//funcion que maneja el movimiento de los fantasmas, se recibe el número del fantasma a mover
 function ghostMovement(number, forward){
+    //velocidad de movimiento de los fantasmas
     let moveSpeed = 0.01;
     switch(number){
         case 1:
@@ -725,8 +723,13 @@ function ghostMovement(number, forward){
     }
     
 }
+//funcion que termina el juego
 function final(){
+    // getAudioContext().pause();
     let canvas = document.getElementById("webglcanvas");
     canvas.style.display = "none";
 }
+function touchStarted() {
+    getAudioContext().resume();
+  }
 main();
