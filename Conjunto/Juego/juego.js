@@ -95,6 +95,9 @@ function update()
             powerArray.splice(i,1);
         } 
     }
+    if((powerArray.length + dotsArray.length) <= 0){
+        console.log("¡¡Ganaste!!");
+    }
     // Seccion colisiones con muros
     let collisionCheck1 = false;
     let collisionCheck2 = false;
