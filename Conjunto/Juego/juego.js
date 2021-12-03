@@ -164,6 +164,34 @@ function createScene(canvas)
     camera = new THREE.PerspectiveCamera( 70, canvas.width / canvas.height, 0.1, 400 );
     camera.position.set(14, 0.5, -23);
 
+
+    var listener = new THREE.AudioListener();
+    camera.add( listener );
+
+    // create a global audio source
+    var sound = new THREE.Audio( listener );
+
+    var audioLoader = new THREE.AudioLoader();  
+
+    //Load a sound and set it as the Audio object's buffer
+    audioLoader.load( '../sounds/music.mp3', function( buffer ) {
+    sound.setBuffer( buffer );
+    sound.setLoop(true);
+    sound.setVolume(.3);
+    sound.play();
+},
+            // onProgress callback
+            function ( xhr ) {
+                console.log( (xhr.loaded / xhr.total * 100) + '% loaded' );
+            },
+
+            // onError callback
+            function ( err ) {
+                console.log( 'Un error ha ocurrido' );
+            }
+
+);
+
     cameraControllsFirstPerson = new FirstPersonControls(camera);
     cameraControllsFirstPerson.lookSpeed = .1;
     cameraControllsFirstPerson.movementSpeed = 2;
